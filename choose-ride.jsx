@@ -4,7 +4,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const rideOptions = [
   {
-    id: 1,
+    id: 1, 
     icon: "bicycle-outline",
     type: "E-Bike",
     time: "2 min",
