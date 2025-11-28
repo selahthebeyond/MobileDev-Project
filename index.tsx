@@ -1,114 +1,119 @@
-// import { Text, View } from "react-native";
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import Ionicons from '@expo/vector-icons/build/Ionicons';
 
-// export default function Index() {
-//   return (
-//     <View
-//       style={{
-//         flex: 1,
-//         justifyContent: "center",
-//         alignItems: "center",
-//       }}
-//     >
-//       <Text>Edit app/index.tsx to edit this screen</Text>
-//     </View>
-//   );
-// }
-import React, { useState } from "react";
-import { View, Text, Switch, StyleSheet, ScrollView } from "react-native";
+export default function WelcomeScreen() {
+  const router = useRouter();
 
-export default function SettingsScreen() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [pushNotifications, setPushNotifications] = useState(true);
-  const [soundEffects, setSoundEffects] = useState(true);
-  const [twoFactor, setTwoFactor] = useState(false);
-  const [location, setLocation] = useState(true);
+  const handleGetStarted = () => {
+    router.push('./signup');
+  };
+
+  const handleSignIn = () => {
+    router.push('./login');
+  };
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>Settings</Text>
-      <Text style={styles.subHeader}>Manage your app preferences</Text>
-
-      {/* Preferences Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Preferences</Text>
-
-        <View style={styles.row}>
-          <Text style={styles.label}>Dark Mode</Text>
-          <Switch value={darkMode} onValueChange={setDarkMode} />
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.logoContainer}>
+          <View style={styles.logoBg}>
+            <Ionicons name="car-sport" size={40} color="white" />
+          </View>
         </View>
-
-        <View style={styles.row}>
-          <Text style={styles.label}>Push Notifications</Text>
-          <Switch value={pushNotifications} onValueChange={setPushNotifications} />
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.label}>Sound Effects</Text>
-          <Switch value={soundEffects} onValueChange={setSoundEffects} />
-        </View>
+        <Text style={styles.title}>E-Transport</Text>
+        <Text style={styles.subtitle}>Your journey starts here</Text>
+        <Text style={styles.description}>Eco-friendly rides at your fingertips</Text>
       </View>
 
-      {/* Privacy Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Privacy & Security</Text>
+      {/* Buttons */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity 
+          style={styles.primaryButton}
+          onPress={handleGetStarted}
+        >
+          <Text style={styles.primaryButtonText}>Get Started</Text>
+        </TouchableOpacity>
 
-        <View style={styles.row}>
-          <Text style={styles.label}>Two-Factor Auth</Text>
-          <Switch value={twoFactor} onValueChange={setTwoFactor} />
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.label}>Location Services</Text>
-          <Switch value={location} onValueChange={setLocation} />
-        </View>
+        <TouchableOpacity 
+          style={styles.secondaryButton}
+          onPress={handleSignIn}
+        >
+          <Text style={styles.secondaryButtonText}>Log In</Text>
+        </TouchableOpacity>
       </View>
-
-      <Text style={styles.footer}>App Version 1.0.0</Text>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: '#00BCD4',
+    justifyContent: 'space-between',
+    paddingVertical: 60,
+    paddingHorizontal: 20,
   },
-  header: {
-    fontSize: 28,
-    fontWeight: "bold",
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+    logoContainer: { 
+    alignItems: 'center', 
+    marginBottom: 32 
+  },
+  logoBg: { 
+    width: 80, 
+    height: 80, 
+    backgroundColor: '#40C4E0', 
+    borderRadius: 24, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    shadowColor: '#000',
+  }, 
+  title: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#fff',
     marginBottom: 5,
   },
-  subHeader: {
-    color: "gray",
-    marginBottom: 20,
+  description: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
   },
-  section: {
-    backgroundColor: "white",
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 25,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
+  buttonContainer: {
+    width: '100%',
+    gap: 15,
   },
-  sectionTitle: {
-    fontWeight: "bold",
-    marginBottom: 15,
+  primaryButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 16,
+    borderRadius: 25,
+    alignItems: 'center',
   },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-  },
-  label: {
+  primaryButtonText: {
+    color: '#00BCD4',
     fontSize: 16,
+    fontWeight: '600',
   },
-  footer: {
-    textAlign: "center",
-    color: "gray",
-    marginTop: 20,
-    marginBottom: 40,
+  secondaryButton: {
+    backgroundColor: 'transparent',
+    paddingVertical: 16,
+    borderRadius: 25,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#fff',
+  },
+  secondaryButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet,
-  ScrollView,
-  SafeAreaView 
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { useRouter } from 'expo-router';
+import Ionicons from '@expo/vector-icons/build/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function SignUpScreen() {
   const [fullName, setFullName] = useState('');
@@ -16,12 +12,26 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignUp = () => {
-    console.log('Sign Up:', { fullName, email, phone, password });
+  const router = useRouter();
+  
+  const handleSignUp = async () => {
+    if (!fullName || !email || !phone || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const user = { fullName, email, phone };
+
+    // Save to storage
+    await AsyncStorage.setItem("registeredUser", JSON.stringify({
+      fullName, email, phone, password
+    }));
+
+    router.push("/login");
   };
 
   const handleLogin = () => {
-    console.log('Navigate to Login');
+    router.push('/login');
   };
 
   return (
@@ -29,14 +39,15 @@ export default function SignUpScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.header}>
-          <View style={styles.iconContainer}>
-            <View style={styles.carIcon}>
-              <View style={styles.carBody} />
-              <View style={styles.carWindow} />
+          <View style={styles.logoContainer}>
+            <View style={styles.logoBg}>
+              <Ionicons name="car-sport" size={40} color="white" />
             </View>
           </View>
+
+
           <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>Join us and start your journey</Text>
+          <Text style={styles.subtitle}>Start your journey</Text>
         </View>
 
         {/* Form */}
@@ -61,7 +72,7 @@ export default function SignUpScreen() {
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
-                placeholder="selah.dbeyond@example.com"
+                placeholder="selahthebeyond@example.com"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -142,37 +153,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
   },
-  iconContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 15,
-    backgroundColor: '#40C4E0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
+  logoContainer: { 
+    alignItems: 'center', 
+    marginBottom: 32 
   },
-  carIcon: {
-    width: 40,
-    height: 24,
-    position: 'relative',
-  },
-  carBody: {
-    width: 40,
-    height: 16,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    position: 'absolute',
-    bottom: 0,
-  },
-  carWindow: {
-    width: 16,
-    height: 10,
-    backgroundColor: 'rgba(64, 196, 224, 0.5)',
-    borderRadius: 5,
-    position: 'absolute',
-    top: 0,
-    left: 6,
-  },
+  logoBg: { 
+    width: 80, 
+    height: 80, 
+    backgroundColor: '#40C4E0', 
+    borderRadius: 24, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    shadowColor: '#000',
+  }, 
   title: {
     fontSize: 28,
     fontWeight: 'bold',
